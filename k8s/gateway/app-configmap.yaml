@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chatbot-config
+  namespace: chatbot
+data:
+  # Point to your existing MongoDB on EC2
+  MONGO_URI: "mongodb://<EC2_PRIVATE_IP_OR_DNS>:27017"
+  MONGO_DB: "stardb"
+  MONGO_COLLECTION: "services"
+  LANGFLOW_URL: "http://langflow:7860"
+  FLOW_ID: "REPLACE_WITH_YOUR_FLOW_ID"
