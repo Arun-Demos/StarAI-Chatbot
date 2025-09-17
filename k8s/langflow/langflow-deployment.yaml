@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: langflow
+  namespace: chatbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: langflow
+  template:
+    metadata:
+      labels:
+        app: langflow
+    spec:
+      containers:
+      - name: langflow
+        image: langflowai/langflow:1.2.0
+        imagePullPolicy: IfNotPresent
+        args: ["python", "-m", "langflow", "run", "--host", "0.0.0.0", "--port", "7860"]
+        ports:
+        - containerPort: 7860
+          name: http
+        env:
+        - name: LANGFLOW_DATABASE_URL
+          value: "sqlite:///./langflow.db"
+        # - name: OPENAI_API_KEY
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: openai
+        #       key: api_key
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: "1"
+            memory: 1Gi
